@@ -10,6 +10,14 @@ namespace X.Data.Configuration
         {
             builder.ToTable("Category");
             builder.HasKey(c => c.Id);
+
+            builder.Property(c => c.Name).HasMaxLength(100);
+            builder.Property(x => x.SeoTitle).HasMaxLength(100);
+            builder.Property(x => x.SeoAlias).HasMaxLength(100);
+            builder.Property(x => x.ParentId).HasDefaultValue(null);
+            builder.Property(x => x.Description).HasMaxLength(100);
+            builder.Property(x => x.SeoDescription).HasMaxLength(100);
+            builder.Property(x => x.CreatedDate).HasDefaultValue(DateTime.Now);
         }
     }
 }

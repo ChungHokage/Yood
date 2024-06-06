@@ -13,5 +13,7 @@ namespace X.Data.Entities
         public decimal Promotion { get; set; }
         public decimal TotalPrice { get; set; }
         public DateTime CreatedTime { get; set; }
+        public AppUser User { get; set; }
+        public List<OrderDetail> OrderDetail { get; set; }
     }
 }

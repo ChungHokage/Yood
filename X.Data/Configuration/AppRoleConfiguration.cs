@@ -14,6 +14,8 @@ namespace X.Data.Configuration
         public void Configure(EntityTypeBuilder<AppRole> builder)
         {
             builder.ToTable(nameof(AppRole));
+
+            builder.Property(x => x.Description).HasMaxLength(128);
         }
     }
 }

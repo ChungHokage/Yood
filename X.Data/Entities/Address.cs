@@ -16,5 +16,6 @@ namespace X.Data.Entities
         public string? Commune { get; set; }
         public AddressType AddressType { get; set; }
         public bool isDefault { get; set; }
+        public AppUser User { get; set; }
     }
 }
