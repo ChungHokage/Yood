@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using X.Data.EF;
 
@@ -11,9 +12,11 @@ using X.Data.EF;
 namespace X.Data.Migrations
 {
     [DbContext(typeof(XDbContext))]
-    partial class XDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603092153_updateTableAndConfig")]
+    partial class updateTableAndConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -209,7 +212,7 @@ namespace X.Data.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 6, 5, 23, 25, 30, 420, DateTimeKind.Local).AddTicks(1396));
+                        .HasDefaultValue(new DateTime(2024, 6, 3, 16, 21, 52, 136, DateTimeKind.Local).AddTicks(2206));
 
                     b.Property<string>("DisplayName")
                         .ValueGeneratedOnAdd()
@@ -279,7 +282,7 @@ namespace X.Data.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 6, 5, 23, 25, 30, 417, DateTimeKind.Local).AddTicks(6377));
+                        .HasDefaultValue(new DateTime(2024, 6, 3, 16, 21, 52, 131, DateTimeKind.Local).AddTicks(8545));
 
                     b.Property<decimal>("Discount")
                         .ValueGeneratedOnAdd()
@@ -359,7 +362,7 @@ namespace X.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 6, 5, 23, 25, 30, 419, DateTimeKind.Local).AddTicks(4471));
+                        .HasDefaultValue(new DateTime(2024, 6, 3, 16, 21, 52, 135, DateTimeKind.Local).AddTicks(282));
 
                     b.Property<string>("Description")
                         .HasMaxLength(100)
@@ -416,7 +419,7 @@ namespace X.Data.Migrations
                     b.Property<DateTime>("CreatedTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2024, 6, 5, 23, 25, 30, 418, DateTimeKind.Local).AddTicks(6288));
+                        .HasDefaultValue(new DateTime(2024, 6, 3, 16, 21, 52, 133, DateTimeKind.Local).AddTicks(5988));
 
                     b.Property<int>("PaymentMethod")
                         .HasColumnType("int");

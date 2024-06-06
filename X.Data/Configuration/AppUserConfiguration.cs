@@ -14,6 +14,10 @@ namespace X.Data.Configuration
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable(nameof(AppUser));
+            builder.HasOne(x => x.UserInformation).WithOne(x => x.AppUser).HasForeignKey<UserInformation>(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(x => x.CreatedTime).HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.DisplayName).HasMaxLength(150).HasDefaultValue("Customer");
         }
     }
 }

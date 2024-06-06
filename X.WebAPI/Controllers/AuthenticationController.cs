@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using X.Application.Request.Account;
 using X.Data.Entities;
 using X.WebAPI.Services.Interfaces;
 
@@ -19,10 +22,33 @@ namespace X.WebAPI.Controllers
             _authen = authen;
         }
 
-        [HttpPost]
-        public void CreateRole([FromQuery] string roleName)
+        [HttpPost("createRole")]
+        public async Task<IActionResult> CreateRole([FromQuery] string roleName)
         {
-            _authen.CreateRole(roleName);
+            var response = await _authen.CreateRole(roleName);
+
+            if (!response.isSuccessed)
+            {
+                return BadRequest(response);
+            }
+            else
+            {
+                return Ok(response);
+            }
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        {
+            var result = await _authen.RegisterAsync(request);
+            if (!result.isSuccessed)
+            {
+                return BadRequest(result);
+            }
+            else
+            {
+                return Ok(result);
+            }
         }
     }
 }
