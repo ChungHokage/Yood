@@ -7,6 +7,7 @@ using X.Application.Request.Account;
 using X.Application.ViewModel.Common;
 using X.Data.EF;
 using X.Data.Entities;
+using X.Ulitilities.Common;
 using X.WebAPI.Services.Interfaces;
 
 namespace X.WebAPI.Services.Implements
@@ -18,12 +19,14 @@ namespace X.WebAPI.Services.Implements
         private readonly IConfiguration _config;
         private readonly UserManager<AppUser> _userManager;
         private readonly XDbContext _context;
+        //      private readonly IEmailSender<MailContent> _emailSender;
 
         public AuthService(UserManager<AppUser> userManager,
           SignInManager<AppUser> signInManager,
           RoleManager<AppRole> roleManager,
           IConfiguration config,
           XDbContext context
+          /*IEmailSender<MailContent> emailSender*/
           )
         {
             _userManager = userManager;
@@ -31,6 +34,7 @@ namespace X.WebAPI.Services.Implements
             _roleManager = roleManager;
             _config = config;
             _context = context;
+            //  _emailSender = emailSender;
         }
 
         public async Task<ApiResult<string>> CreateRole(string roleName)
@@ -47,9 +51,23 @@ namespace X.WebAPI.Services.Implements
             else return new ApiSuccessResult<string>("The role was created");
         }
 
-        public Task<ApiResult<string>> Login(LoginRequest request)
+        public async Task<ApiResult<string>> Login(LoginRequest request)
         {
-            throw new NotImplementedException();
+            if (request == null)
+                return new ApiErrorResult<string>("Login container is empty");
+
+            var getUser = await _userManager.FindByNameAsync(request.Username);
+            if (getUser is null)
+                return new ApiErrorResult<string>("User not found");
+
+            bool checkUserPasswords = await _userManager.CheckPasswordAsync(getUser, request.Password);
+            if (!checkUserPasswords)
+                return new ApiErrorResult<string>("Invalid email/password");
+
+            var getUserRole = await _userManager.GetRolesAsync(getUser);
+            var userSession = new UserSession(getUser.Id, getUser.UserName, getUser.Email, getUserRole.First());
+            string token = GenerateToken(userSession);
+            return new ApiSuccessResult<string>(token, "Login completed");
         }
 
         public async Task<ApiResult<string>> RegisterAsync(RegisterRequest request)
@@ -58,7 +76,6 @@ namespace X.WebAPI.Services.Implements
 
             var newUser = new AppUser()
             {
-                //       Email = request.Email,
                 PasswordHash = request.Password,
                 UserName = request.UserName,
                 Email = request.Email,
@@ -66,6 +83,7 @@ namespace X.WebAPI.Services.Implements
             var user = await _userManager.FindByEmailAsync(newUser.Email);
 
             if (user is not null) return new ApiErrorResult<string>("User registered already");
+            //validate email register
 
             var createUser = await _userManager.CreateAsync(newUser!, request.Password);
             if (!createUser.Succeeded) return new ApiErrorResult<string>("Error occured.. please try again");
@@ -73,25 +91,47 @@ namespace X.WebAPI.Services.Implements
             return new ApiSuccessResult<string>("Account Created");
         }
 
-        /*  private string GenerateToken(UserSession user)
-          {
-              var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
-              var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-              var userClaims = new[]
-              {
+        public void VerifyEmail(string email, string requestCode)
+        {
+            Random random = new Random();
+            var verifyCode = random.Next(0, 9999);
+            SendEmailVerify(email);
+            if (requestCode.Equals(verifyCode))
+            {
+            }
+        }
+
+        private void SendEmailVerify(string email)
+        {
+            Random random = new Random();
+            var verifyCode = random.Next(0, 9999);
+            var mailContet = new MailContent()
+            {
+                To = email,
+                Subject = "Mã xác minh của bạn là: " + verifyCode,
+                Body = "<p>Mã xác minh của bạn là" + verifyCode + "</p>"
+            };
+        }
+
+        private string GenerateToken(UserSession user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var userClaims = new[]
+            {
                   new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()!),
                   new Claim(ClaimTypes.Name, user.Name!),
                //   new Claim(ClaimTypes.Email, user.Email!),
                   new Claim(ClaimTypes.Role, user.Role)
               };
-              var token = new JwtSecurityToken(
-                  issuer: _config["Jwt:Issuer"],
-                  audience: _config["Jwt:Audience"],
-                  claims: userClaims,
-                  expires: DateTime.Now.AddDays(1),
-                  signingCredentials: credentials
-                  );
-              return new JwtSecurityTokenHandler().WriteToken(token);
-          }*/
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: userClaims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: credentials
+                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
     }
 }
