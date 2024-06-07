@@ -1,12 +1,14 @@
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using X.Data.EF;
 using X.Data.Entities;
+using X.Ulitilities.Common;
 using X.WebAPI.Services.Implements;
 using X.WebAPI.Services.Interfaces;
 
@@ -50,6 +52,11 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+builder.Services.AddOptions();
+var mailsettings = builder.Configuration.GetSection("MailSettings");
+builder.Services.Configure<MailSetting>(mailsettings);
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -59,6 +66,7 @@ builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 //builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
+builder.Services.AddTransient<ISendMailService, SendMailService>();
 //builder.Services.AddTransient<IAuthenService, AuthenService>();
 
 var app = builder.Build();
@@ -71,9 +79,31 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGet("/", async context =>
+    {
+        await context.Response.WriteAsync("Hello World!");
+    });
 
+    endpoints.MapGet("/testmail", async context =>
+    {
+        // Lấy dịch vụ sendmailservice
+        var sendmailservice = context.RequestServices.GetService<ISendMailService>();
+
+        MailContent content = new MailContent
+        {
+            To = "mklight02@gmail.com",
+            Subject = "Kiểm tra thử",
+            Body = "Kiểm tra"
+        };
+
+        await sendmailservice.SendMail(content);
+        await context.Response.WriteAsync("Send mail");
+    });
+});
 app.Run();

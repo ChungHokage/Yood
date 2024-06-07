@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\X.Application\X.Application.csproj" />
     <ProjectReference Include="..\X.Data\X.Data.csproj" />
+    <ProjectReference Include="..\X.Ulitilities\X.Ulitilities.csproj" />
   </ItemGroup>
 
 </Project>
