@@ -1,14 +1,15 @@
 ﻿using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using X.Data.EF;
 using X.Data.Entities;
 using X.Ulitilities.Common;
+using X.Ulitilities.Mapper;
 using X.WebAPI.Services.Implements;
 using X.WebAPI.Services.Interfaces;
 
@@ -56,7 +57,10 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddOptions();
 var mailsettings = builder.Configuration.GetSection("MailSettings");
 builder.Services.Configure<MailSetting>(mailsettings);
-
+builder.Services.AddAutoMapper(config =>
+{
+    config.AddProfile<CategoryMapper>();
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -83,7 +87,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
-app.UseEndpoints(endpoints =>
+/*app.UseEndpoints(endpoints =>
 {
     endpoints.MapGet("/", async context =>
     {
@@ -105,5 +109,5 @@ app.UseEndpoints(endpoints =>
         await sendmailservice.SendMail(content);
         await context.Response.WriteAsync("Send mail");
     });
-});
+});*/
 app.Run();
