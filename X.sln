@@ -5,11 +5,13 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "X.Data", "X.Data\X.Data.csproj", "{784392BC-ED48-40E0-B0EF-55D462FF0150}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.WebAPI", "X.WebAPI\X.WebAPI.csproj", "{54ADE4A5-7868-464A-82F9-EA6E019C5047}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "X.WebAPI", "X.WebAPI\X.WebAPI.csproj", "{54ADE4A5-7868-464A-82F9-EA6E019C5047}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Application", "X.Application\X.Application.csproj", "{B69A7ED6-916D-4595-879A-A694D8210F10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "X.Application", "X.Application\X.Application.csproj", "{B69A7ED6-916D-4595-879A-A694D8210F10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "X.Ulitilities", "X.Ulitilities\X.Ulitilities.csproj", "{66CFD35C-B916-4386-866B-4A5EDBBE4F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "X.Ulitilities", "X.Ulitilities\X.Ulitilities.csproj", "{66CFD35C-B916-4386-866B-4A5EDBBE4F88}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "X.Client", "X.Client\X.Client.esproj", "{53C79C34-49D2-4A9C-8A69-397F0DDA5ABD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,12 @@ Global
 		{66CFD35C-B916-4386-866B-4A5EDBBE4F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66CFD35C-B916-4386-866B-4A5EDBBE4F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66CFD35C-B916-4386-866B-4A5EDBBE4F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C79C34-49D2-4A9C-8A69-397F0DDA5ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C79C34-49D2-4A9C-8A69-397F0DDA5ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C79C34-49D2-4A9C-8A69-397F0DDA5ABD}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{53C79C34-49D2-4A9C-8A69-397F0DDA5ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C79C34-49D2-4A9C-8A69-397F0DDA5ABD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C79C34-49D2-4A9C-8A69-397F0DDA5ABD}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
