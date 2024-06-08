@@ -10,5 +10,7 @@ namespace X.WebAPI.Services.Interfaces
         Task<ApiResult<string>> RegisterAsync(RegisterRequest request);
 
         Task<ApiResult<string>> Login(LoginRequest request);
+
+        Task<ApiResult<string>> Logout();
     }
 }
