@@ -39,6 +39,7 @@ namespace X.WebAPI.Services.Implements
                     SeoTitle = request.SeoTitle,
                     SeoAlias = request.SeoAlias,
                     SeoDescription = request.SeoDescription,
+                    CreatedDate = DateTime.Now,
                 };
                 await _context.Categories.AddAsync(category);
                 await _context.SaveChangesAsync();

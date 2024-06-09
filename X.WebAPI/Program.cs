@@ -60,18 +60,20 @@ builder.Services.Configure<MailSetting>(mailsettings);
 builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<CategoryMapper>();
+    config.AddProfile<ProductMapper>();
 });
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddMemoryCache();
+
 builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
-//builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<ISendMailService, SendMailService>();
-//builder.Services.AddTransient<IAuthenService, AuthenService>();
 
 var app = builder.Build();
 

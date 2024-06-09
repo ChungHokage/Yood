@@ -133,5 +133,10 @@ namespace X.WebAPI.Services.Implements
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        public Task<ApiResult<string>> Logout()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
