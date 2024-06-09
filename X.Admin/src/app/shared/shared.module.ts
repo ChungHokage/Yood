@@ -9,6 +9,10 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
 import { NavprofileComponent } from './navprofile/navprofile.component';
 import { NavlanguageComponent } from './navlanguage/navlanguage.component';
 import { NavnotificationComponent } from './navnotification/navnotification.component';
+import { TopbarComponent } from './topbar/topbar.component';
+import { PageTopComponent } from './page-top/page-top.component';
+import { FooterComponent } from './footer/footer.component';
+import { LogoutModalComponent } from './logout-modal/logout-modal.component';
 
 
 
@@ -22,7 +26,11 @@ import { NavnotificationComponent } from './navnotification/navnotification.comp
     SearchbarComponent,
     NavprofileComponent,
     NavlanguageComponent,
-    NavnotificationComponent
+    NavnotificationComponent,
+    TopbarComponent,
+    PageTopComponent,
+    FooterComponent,
+    LogoutModalComponent
   ],
   imports: [
     CommonModule
@@ -30,7 +38,18 @@ import { NavnotificationComponent } from './navnotification/navnotification.comp
   exports:[
     SidebarComponent,
     HeadbarComponent,
-    PreloadComponent
+    PreloadComponent,
+    NavheaderComponent,
+    NavcontrolComponent,
+    SearchbarComponent,
+    NavlanguageComponent,
+    NavprofileComponent,
+    NavnotificationComponent,
+    HeadbarComponent,
+    TopbarComponent,
+    PageTopComponent,LogoutModalComponent,
+    PageTopComponent,
+    FooterComponent
   ]
 })
 export class SharedModule { }
